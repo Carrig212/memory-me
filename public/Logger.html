@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html >
+ <head>
+  <meta charset="UTF-8">
+  <title>Memory/Me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+  <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.css" >
+  <link rel="shortcut icon" href="img/membrain.ico">
+  <link rel="stylesheet" href="css/style.css">
+ </head>
+ <header>
+   <div class = header>
+     <nav>
+         <ul>
+           <li><a href="index.html">Home</a></li>
+           <li><a href="Calendar.html">Calendar</a></li>
+           <li><a href="Editor.html">Diary</a></li>
+           <li class = "active"><a href="Logger.html">Join</a></li>
+         </ul>
+     </nav>
+ </header>
+ <body>
+  <div class = "container">
+
+        <input id="txtEmail" type = "email"  placeholder = "Email"/>
+
+        <input id="txtPassword" type = "password"  placeholder = "Password"/>
+
+        <button id="btnLogin" class = "btn btn-action">
+          Log in
+        </button>
+
+        <button id="btnSignUp" class = "btn btn-secondary">
+          Sign Up
+        </button>
+
+        <button id="btnLogout" class = "btn btn-action hide">
+          Sign Out
+        </button>
+
+      </div>
+
+
+
+ </body>
+<script src="scripts/app.js"></script>
+</html>

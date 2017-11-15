@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Memory/Me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+  <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+  <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="css/index.css" type="text/css" />
+  <link rel="shortcut icon" href="img/membrain.ico">
+  <link href="https://cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
+
+</head>
+
+  <header class="headerhome">
+    <nav>
+        <ul>
+          <li><a href = "index.html">Home</a></li>
+          <li><a href ="Calendar.html">Calendar</a></li>
+          <li class = "active"><a href="Editor.html">Diary</a></li>
+          <li><a href = "Logger.html">Join</a></li>
+        </ul>
+    </nav>
+  </header>
+  <body>
+    <h2>Welcome to your diary</h2>
+    <!-- Create the editor container -->
+    <div class = "editBlock" id="editor">
+
+    </div>
+
+    <button id="submitBtn">Save</button>
+    <!-- Initialize Quill editor -->
+  <script>
+
+  var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+
+    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    //[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    //[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    [{ 'direction': 'rtl' }],                         // text direction
+
+    //[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    //[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'font': [] }],
+    [{ 'align': [] }],
+
+    ['clean']                                         // remove formatting button
+  ];
+
+
+    var quill = new Quill('#editor', {
+      modules: {
+          toolbar: toolbarOptions
+      },
+      theme: 'snow',
+      placeholder: 'Make a new entry...'
+    });
+  </script>
+  <script>
+  const config = {
+    apiKey: "AIzaSyC1g8NJiXRtNZUeZoVEx6RYKg-KikYsqns",
+    authDomain: "memoryme-js.firebaseapp.com",
+    databaseURL: "https://memoryme-js.firebaseio.com",
+    projectId: "memoryme-js",
+    storageBucket: "memoryme-js.appspot.com",
+    messagingSenderId: "609070950026"
+  };
+  firebase.initializeApp(config);
+
+  var edrootRef = firebase.database().ref().child('diaryPage');
+  var Delta =  Quill.import('delta');
+  var change = new Delta();
+  quill.on('text-change',function(delta){
+    change=change.compose(delta);
+  });
+
+  $('#submitBtn').click(function(){
+    edrootRef.push({
+      diary: JSON.stringify(change)
+    });
+  })
+  </script>
+  </body>
+</html>
