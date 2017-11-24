@@ -4,6 +4,31 @@ function CalendarApp(date) {
     date = new Date();
   }
 
+  const config = {
+    apiKey: "AIzaSyC1g8NJiXRtNZUeZoVEx6RYKg-KikYsqns",
+    authDomain: "memoryme-js.firebaseapp.com",
+    databaseURL: "https://memoryme-js.firebaseio.com",
+    projectId: "memoryme-js",
+    storageBucket: "memoryme-js.appspot.com",
+    messagingSenderId: "609070950026"
+  };
+  firebase.initializeApp(config);
+
+    var calrootRef = firebase.database().ref().child('calEvent');
+    //this.calrootRef = this.database().ref().child('calEvent');
+
+    $('#add-event-save').click(function(){
+      calrootRef.push({
+        date: Date(),
+        eName: $('#input-add-event-name').val(),
+        start: $('#input-add-event-start-time').val(),
+        sAmPm: $('#input-add-event-start-ampm').val(),
+        end: $('#input-add-event-end-time').val(),
+        eAmPm: $('#input-add-event-end-ampm').val()
+
+      });
+    })
+
   this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   this.quotes = ['Whatever the mind of man can conceive and believe, it can achieve. –Napoleon Hill',
@@ -334,7 +359,7 @@ CalendarApp.prototype.saveAddNewEvent = function() {
   var saveErrors = this.validateAddEventInput();
   if ( !saveErrors ) {
     this.addEvent();
-  }
+  };
 };
 
 CalendarApp.prototype.addEvent = function() {
@@ -350,6 +375,7 @@ CalendarApp.prototype.addEvent = function() {
     startTime: cleanDates[0],
     endTime: cleanDates[1]
   });
+
   this.closeNewEventBox();
   this.openDayWindow(dayOfDate);
   this.calDaySelected.classList.add("has-events");
@@ -515,6 +541,7 @@ CalendarApp.prototype.showNewMonth = function(e){
   this.closeDayWindow();
   return true;
 };
+
 
 var calendar = new CalendarApp();
 console.log(calendar);

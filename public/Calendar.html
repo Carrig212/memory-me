@@ -7,6 +7,7 @@
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="img/membrain.ico">
 </head>
@@ -41,15 +42,15 @@
           <div class="qtr">
             <label class="add-event-label">
           Start Time
-              <input type="text" class="add-event-edit" placeholder="8:15" id="input-add-event-start-time" data-options="1,2,3,4,5,6,7,8,9,10,11,12" data-format="datetime">
-              <input type="text" class="add-event-edit" placeholder="am" id="input-add-event-start-ampm" data-options="a,p,am,pm">
+              <input type="text" class="add-event-edit" id="input-add-event-start-time" data-options="1,2,3,4,5,6,7,8,9,10,11,12" data-format="datetime">
+              <input type="text" class="add-event-edit" placeholder="am/pm" id="input-add-event-start-ampm" data-options="am,pm">
             </label>
           </div>
           <div class="qtr">
             <label class="add-event-label">
           End Time
-              <input type="text" class="add-event-edit" placeholder="9" id="input-add-event-end-time" data-options="1,2,3,4,5,6,7,8,9,10,11,12" data-format="datetime">
-              <input type="text" class="add-event-edit" placeholder="am" id="input-add-event-end-ampm" data-options="a,p,am,pm">
+              <input type="text" class="add-event-edit" id="input-add-event-end-time" data-options="1,2,3,4,5,6,7,8,9,10,11,12" data-format="datetime">
+              <input type="text" class="add-event-edit" placeholder="am/pm" id="input-add-event-end-ampm" data-options="am,pm">
             </label>
           </div>
           <div class="half">
@@ -89,5 +90,32 @@
 </div>
 
     <script src="scripts/Calendar.js"></script>
+    <!--<script>
+    const config = {
+      apiKey: "AIzaSyC1g8NJiXRtNZUeZoVEx6RYKg-KikYsqns",
+      authDomain: "memoryme-js.firebaseapp.com",
+      databaseURL: "https://memoryme-js.firebaseio.com",
+      projectId: "memoryme-js",
+      storageBucket: "memoryme-js.appspot.com",
+      messagingSenderId: "609070950026"
+    };
+    firebase.initializeApp(config);
+
+    var calrootRef = firebase.database().ref().child('calEvent');
+
+
+    $('#add-event-save').click(function(){
+      calrootRef.push({
+        date: Date(),
+        eName: $('#input-add-event-name').val(),
+        start: $('#input-add-event-start-time').val(),
+        sAmPm: $('#input-add-event-start-ampm').val(),
+        end: $('#input-add-event-end-time').val(),
+        eAmPm: $('#input-add-event-end-ampm').val()
+
+      });
+    })
+
+  </script>-->
 </body>
 </html>

@@ -42,6 +42,9 @@
     firebase.auth().signOut();
   });
 
+//  var userId = firebase.auth().currentUser;
+//  var uid = firebase.auth().currentUser.uid;
+//  var userRootRef = firebase.database().ref('user');
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser) {
@@ -52,5 +55,15 @@
       btnLogout.classList.add('hide');
     }
   });
+
+
+  /**$('#btnSignUp').click(function(uid){
+    userRootRef.push({
+      date: Date(),
+      email: $('#textEmail').val(),
+      userId: uid
+
+    });
+  })**/
 
 }());
