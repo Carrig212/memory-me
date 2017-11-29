@@ -25,14 +25,24 @@
         </ul>
     </nav>
   </header>
-  <body>
+  <body id = "edBody">
     <h2>Welcome to your diary</h2>
     <!-- Create the editor container -->
-    <div class = "editBlock" id="editor">
+    <div class = "editBlock" id = "editor">
 
     </div>
 
-    <button id="submitBtn">Save</button>
+    <button id = "submitBtn">Save</button>
+
+    <article class = "bottomContent">
+      <h2>Previous entries:</h2>
+      <footer>
+        <p class = "post-info" id = "notLog"></p>
+      </footer>
+      <div id = "prevEntries">
+
+      </div>
+    </article>
     <!-- Initialize Quill editor -->
   <script>
 
@@ -76,7 +86,15 @@
   };
   firebase.initializeApp(config);
 
-  var edrootRef = firebase.database().ref().child('diaryPage');
+  //document.getElementById("myFrame").onload = function() {refreshFunc()};
+
+
+  var x = localStorage.getItem("user");
+  //x=JSON.stringify(x);
+  alert(x);
+
+  var edrootRef = firebase.database().ref().child(x+'/diaryPage');
+
   var Delta =  Quill.import('delta');
   var change = new Delta();
   quill.on('text-change',function(delta){
@@ -84,10 +102,29 @@
   });
 
   $('#submitBtn').click(function(){
-    edrootRef.push({
-      diary: JSON.stringify(change)
-    });
+    if(x=='"default"'){
+      alert("You are currently not signed in, anything you enter will not be saved. Please visit the join page.")
+    }else if(quill.getLength()!=1){
+      edrootRef.push({
+        diary: JSON.stringify(change)
+      });
+      quill.setText('');
+    }else if(quill.getLength()==1){
+      alert("Diary entry is empty, please write a new entry before saving.");
+    }
   })
+
+
+  if(x=='"default"'){
+    document.getElementById('notLog').innerHTML="Please join us and log in to start your story and see your previous entries.";
+  }else{
+    edrootRef.on("value", function(snapshot) {
+       console.log(snapshot.val());
+       document.getElementById('notLog').innerHTML= JSON.stringify(snapshot.val());
+    }, function (error) {
+       console.log("Error: " + error.code);
+    });
+  }
   </script>
   </body>
 </html>

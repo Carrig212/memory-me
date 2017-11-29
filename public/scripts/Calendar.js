@@ -14,19 +14,28 @@ function CalendarApp(date) {
   };
   firebase.initializeApp(config);
 
-    var calrootRef = firebase.database().ref().child('calEvent');
+    var x = localStorage.getItem("user");
+    //x=JSON.stringify(x);
+    alert(x)
+    console.log(x);
+
+    var calrootRef = firebase.database().ref().child(x+'/calEvent');
     //this.calrootRef = this.database().ref().child('calEvent');
 
     $('#add-event-save').click(function(){
-      calrootRef.push({
-        date: Date(),
-        eName: $('#input-add-event-name').val(),
-        start: $('#input-add-event-start-time').val(),
-        sAmPm: $('#input-add-event-start-ampm').val(),
-        end: $('#input-add-event-end-time').val(),
-        eAmPm: $('#input-add-event-end-ampm').val()
+      if(x=='"default"'){
+        alert("You are currently not signed in, anything you enter will not be saved. Please visit the join page.")
+      }else{
+        calrootRef.push({
+          date: Date(),
+          eName: $('#input-add-event-name').val(),
+          start: $('#input-add-event-start-time').val(),
+          sAmPm: $('#input-add-event-start-ampm').val(),
+          end: $('#input-add-event-end-time').val(),
+          eAmPm: $('#input-add-event-end-ampm').val()
 
-      });
+        });
+     }
     })
 
   this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
