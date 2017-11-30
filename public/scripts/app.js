@@ -64,7 +64,7 @@
       btnLogout.classList.add('hide');
       btnSignUp.classList.remove('hide');
       btnLogin.classList.remove('hide');
-      x=JSON.stringify(x);
+      x=JSON.stringify("default");
       window.localStorage.setItem("user",x);
     }
   });

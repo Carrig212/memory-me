@@ -101,9 +101,15 @@
     change=change.compose(delta);
   });
 
+  if(x!='"default"'){
+    $('a[href="Logger.html"]').html("Sign-out");
+  }else{
+    $('a[href="Logger.html"]').html("Join");
+  }
+
   $('#submitBtn').click(function(){
     if(x=='"default"'){
-      alert("You are currently not signed in, anything you enter will not be saved. Please visit the join page.")
+      alert("You are currently not signed in, anything you enter will not be saved. Please visit the join page.");
     }else if(quill.getLength()!=1){
       edrootRef.push({
         diary: JSON.stringify(change)
@@ -119,10 +125,10 @@
     document.getElementById('notLog').innerHTML="Please join us and log in to start your story and see your previous entries.";
   }else{
     edrootRef.on("value", function(snapshot) {
-       console.log(snapshot.val());
-       document.getElementById('notLog').innerHTML= JSON.stringify(snapshot.val());
-    }, function (error) {
-       console.log("Error: " + error.code);
+       var childData = (snapshot.val());
+       var len = Object.keys(childData).length;
+       document.getElementById('prevEntries').innerHTML = JSON.stringify(childData); 
+       //JSON.stringify(Object.values(childData)[0]);
     });
   }
   </script>

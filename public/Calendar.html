@@ -88,7 +88,6 @@
     <span><span id="footer-date" class="footer__link">Today is May 30</span></span>
   </div>
 </div>
-
     <script src="scripts/Calendar.js"></script>
     <!--<script>
     const config = {
@@ -100,22 +99,16 @@
       messagingSenderId: "609070950026"
     };
     firebase.initializeApp(config);
-
-    var calrootRef = firebase.database().ref().child('calEvent');
-
-
-    $('#add-event-save').click(function(){
-      calrootRef.push({
-        date: Date(),
-        eName: $('#input-add-event-name').val(),
-        start: $('#input-add-event-start-time').val(),
-        sAmPm: $('#input-add-event-start-ampm').val(),
-        end: $('#input-add-event-end-time').val(),
-        eAmPm: $('#input-add-event-end-ampm').val()
-
-      });
-    })
-
   </script>-->
+  <script>
+    var x = localStorage.getItem("user");
+    //x=JSON.stringify(x);
+
+    if(x!='"default"'){
+      $('a[href="Logger.html"]').html("Sign-out");
+    }else{
+      $('a[href="Logger.html"]').html("Join");
+    }
+    </script>
 </body>
 </html>

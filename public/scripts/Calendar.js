@@ -17,7 +17,12 @@ function CalendarApp(date) {
     var x = localStorage.getItem("user");
     //x=JSON.stringify(x);
     alert(x)
-    console.log(x);
+
+    if(x!='"default"'){
+      $('a[href="Logger.html"]').html("Sign-out");
+    }else{
+      $('a[href="Logger.html"]').html("Join");
+    }
 
     var calrootRef = firebase.database().ref().child(x+'/calEvent');
     //this.calrootRef = this.database().ref().child('calEvent');
@@ -37,6 +42,17 @@ function CalendarApp(date) {
         });
      }
     })
+
+    if(x=='"default"'){
+       alert("Please join us and log in to start your story and see your previous entries.");
+    }else{
+      calrootRef.on("value", function(snapshot) {
+         var childData = (snapshot.val());
+         var len = Object.keys(childData).length;
+         alert(JSON.stringify(childData));
+         //JSON.stringify(Object.values(childData)[0]);
+      });
+    }
 
   this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -72,7 +88,18 @@ function CalendarApp(date) {
   'Few things can help an individual more than to place responsibility on him, and to let him know that you trust him. –Booker T. Washington'];
 
   this.apts = [
-
+      /*  {
+          name: 'defualt',
+          endTime: new Date(2017, 11, 30, 23),
+          startTime: new Date(2017, 11, 30, 21),
+          day: new Date(2017, 11, 30).toString()
+        },
+         {
+          name: 'random',
+          endTime: new Date(2016, 4, 1, 23, 59),
+          startTime: new Date(2016, 4, 1, 0),
+          day: new Date(2016, 4, 1).toString()
+        },*/
   ];
 
   this.aptDates = [

@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
     <!--<script defer src="/__/firebase/init.js"></script>-->
     <link rel="stylesheet" href="css/index.css" type="text/css" />
@@ -112,6 +113,16 @@
     messagingSenderId: "609070950026"
   };
   firebase.initializeApp(config);
+
+  var x = localStorage.getItem("user");
+  alert(x);
+
+  if(x!='"default"'){
+    $('a[href="Logger.html"]').html("Sign-out");
+  }else{
+    $('a[href="Logger.html"]').html("Join");
+  }
+
 </script>
   </body>
 
