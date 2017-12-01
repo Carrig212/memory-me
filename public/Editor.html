@@ -32,16 +32,17 @@
 
     </div>
 
+
     <button id = "submitBtn">Save</button>
 
     <article class = "bottomContent">
-      <h2>Previous entries:</h2>
+      <h2>Your last few entries:</h2>
       <footer>
         <p class = "post-info" id = "notLog"></p>
       </footer>
-      <div id = "prevEntries">
-
-      </div>
+      <div id = "prevEntries1"></div>
+      <div id = "prevEntries2"></div>
+      <div id = "prevEntries3"></div>
     </article>
     <!-- Initialize Quill editor -->
   <script>
@@ -74,6 +75,8 @@
       theme: 'snow',
       placeholder: 'Make a new entry...'
     });
+
+
   </script>
   <script>
   const config = {
@@ -101,6 +104,9 @@
     change=change.compose(delta);
   });
 
+   //var delTest = {"ops":[{"insert":"This is not Stringified."}]}
+   //quill.setContents(delTest);
+
   if(x!='"default"'){
     $('a[href="Logger.html"]').html("Sign-out");
   }else{
@@ -112,7 +118,7 @@
       alert("You are currently not signed in, anything you enter will not be saved. Please visit the join page.");
     }else if(quill.getLength()!=1){
       edrootRef.push({
-        diary: JSON.stringify(change)
+        diary: change
       });
       quill.setText('');
     }else if(quill.getLength()==1){
@@ -120,17 +126,114 @@
     }
   })
 
+  var s,t,r,res1,res2,res3,rem,childData,oldPage1,oldPage2,oldPage3,last,secLast,triLast;
 
   if(x=='"default"'){
     document.getElementById('notLog').innerHTML="Please join us and log in to start your story and see your previous entries.";
   }else{
     edrootRef.on("value", function(snapshot) {
-       var childData = (snapshot.val());
-       var len = Object.keys(childData).length;
-       document.getElementById('prevEntries').innerHTML = JSON.stringify(childData); 
-       //JSON.stringify(Object.values(childData)[0]);
+       childData = (snapshot.val());
+       if(childData==null){
+         document.getElementById('notLog').innerHTML="Start your story and see your previous entries.";
+       }
+       else if(childData!=null){
+
+         rem = Object.keys(childData).length;
+
+         if(rem==1){
+
+           last = rem-1;
+
+           s = JSON.stringify(Object.values(childData)[last]);
+           s = s.substr(9);
+           res1 = s.length-1;
+           s = s.substr(0,res1);
+           oldPage1 = new Quill('#prevEntries1', {
+             modules: {
+                 toolbar: false
+             },
+             theme: 'snow',
+           });
+
+           oldPage1.setContents(JSON.parse(s));
+
+         }else if(rem==2){
+
+           last = rem-1;
+           secLast = rem-2;
+
+           s = JSON.stringify(Object.values(childData)[last]);
+           s = s.substr(9);
+           res1 = s.length-1;
+           s = s.substr(0,res1);
+           oldPage1 = new Quill('#prevEntries1', {
+             modules: {
+                 toolbar: false
+             },
+             theme: 'snow',
+           });
+
+           oldPage1.setContents(JSON.parse(s));
+
+           t = JSON.stringify(Object.values(childData)[secLast]);
+           t = t.substr(9);
+           res2 = t.length-1;
+           t = t.substr(0,res2);
+           oldPage2 = new Quill('#prevEntries2', {
+             modules: {
+                 toolbar: false
+             },
+             theme: 'snow',
+           });
+           oldPage2.setContents(JSON.parse(t));
+
+         }else if(rem>2){
+
+           last = rem-1;
+           secLast = rem-2;
+           triLast = rem-3;
+
+           s = JSON.stringify(Object.values(childData)[last]);
+           s = s.substr(9);
+           res1 = s.length-1;
+           s = s.substr(0,res1);
+           oldPage1 = new Quill('#prevEntries1', {
+             modules: {
+                 toolbar: false
+             },
+             theme: 'snow',
+           });
+
+           oldPage1.setContents(JSON.parse(s));
+
+           t = JSON.stringify(Object.values(childData)[secLast]);
+           t = t.substr(9);
+           res2 = t.length-1;
+           t = t.substr(0,res2);
+           oldPage2 = new Quill('#prevEntries2', {
+             modules: {
+                 toolbar: false
+             },
+             theme: 'snow',
+           });
+           oldPage2.setContents(JSON.parse(t));
+
+           r = JSON.stringify(Object.values(childData)[triLast]);
+           r = r.substr(9);
+           res3 = r.length-1;
+           r = r.substr(0,res3);
+           oldPage3 = new Quill('#prevEntries3', {
+             modules: {
+                 toolbar: false
+             },
+             theme: 'snow',
+           });
+           oldPage3.setContents(JSON.parse(r));
+         }
+     }
     });
   }
+
   </script>
   </body>
 </html>
