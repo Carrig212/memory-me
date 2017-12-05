@@ -9,8 +9,6 @@ const config = {
 firebase.initializeApp(config);
 
   var x = localStorage.getItem("user");
-  //x=JSON.stringify(x);
-  //alert(x)
 
   if(x!='"default"'){
     $('a[href="Logger.html"]').html("Sign-out");
@@ -25,6 +23,7 @@ firebase.initializeApp(config);
   var span = document.getElementsByClassName("close")[0];
   var togHead = document.getElementById('togHead');
   var btn = document.getElementById('myBtn');
+  var a;
 
   btn.onclick = function() {
       modal.style.display = "block";
@@ -84,6 +83,10 @@ function CalendarApp(date) {
      }
    })
 
+   calrootRef.once("value")
+    .then(function(snapshot){
+      a = snapshot.exists();
+
     if(x=='"default"'){
        console.log("Not User")
        togHead.innerHTML = "Please sign in";
@@ -101,13 +104,9 @@ function CalendarApp(date) {
                head.style.display = "block";
            }
        }
-    }else{
+    }else if(a){
       calrootRef.orderByChild("sort").once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot){
-         //var childData = (snapshot.val());
-         //var objLength = snapshot.numChildren();
-         //childTest = snapshot.child(Object.keys(childData)[0]).val();
-         //deepTest = snapshot.child(Object.keys(childData)[0]).child('name').val();
          var key = childSnapshot.key;
          var childData = childSnapshot.val();
          var day_val = childSnapshot.val().day;
@@ -126,7 +125,11 @@ function CalendarApp(date) {
 
        });
       });
+    }else{
+        togHead.innerHTML = "Your Appointments";
+        document.getElementById('mp').innerHTML = "You have no appointments, Why not add one?";
     }
+  });
 
   this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

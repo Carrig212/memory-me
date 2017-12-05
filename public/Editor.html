@@ -28,7 +28,6 @@
 
   <div id="myModal" class="modal">
 
-    <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
         <span class="close">&times;</span>
@@ -45,11 +44,9 @@
 
   <body id = "edBody">
     <h2>Welcome to your diary</h2>
-    <!-- Create the editor container -->
     <div class = "editBlock" id = "editor">
 
     </div>
-
 
     <button id = "submitBtn">Save</button>
 
@@ -85,7 +82,6 @@
     ['clean']                                         // remove formatting button
   ];
 
-
     var quill = new Quill('#editor', {
       modules: {
           toolbar: toolbarOptions
@@ -93,7 +89,6 @@
       theme: 'snow',
       placeholder: 'Make a new entry...'
     });
-
 
   </script>
   <script>
@@ -107,12 +102,7 @@
   };
   firebase.initializeApp(config);
 
-  //document.getElementById("myFrame").onload = function() {refreshFunc()};
-
-
   var x = localStorage.getItem("user");
-  //x=JSON.stringify(x);
-  //alert(x);
 
   var edrootRef = firebase.database().ref().child(x+'/diaryPage');
 
@@ -122,23 +112,17 @@
     change=change.compose(delta);
   });
 
-   //var delTest = {"ops":[{"insert":"This is not Stringified."}]}
-   //quill.setContents(delTest);
-
    var modal = document.getElementById('myModal');
-   //var head = document.getElementById('mblock');
    var span = document.getElementsByClassName("close")[0];
    var togHead = document.getElementById('togHead');
 
    span.onclick = function() {
        modal.style.display = "none";
-    // head.style.display = "block";
    }
 
    window.onclick = function(event) {
        if (event.target == modal) {
            modal.style.display = "none";
-           //head.style.display = "block";
        }
    }
 
@@ -152,10 +136,7 @@
     if(x=='"default"'){
       togHead.innerHTML = "Please sign in";
       document.getElementById('mp').innerHTML = "Join us to start saving your story";
-
       modal.style.display = "block";
-      //head.style.display = "none";
-
     }else if(quill.getLength()!=1){
       edrootRef.push({
         diary: change
@@ -165,7 +146,6 @@
       togHead.innerHTML = "Alert";
       document.getElementById('mp').innerHTML = "Diary entry is empty, please write a new entry before saving.";
       modal.style.display = "block";
-      //head.style.display = "none";
     }
   })
 
@@ -180,17 +160,14 @@
          document.getElementById('notLog').innerHTML="Start your story and see your previous entries.";
        }
        else if(childData!=null){
-
          rem = Object.keys(childData).length;
-
          if(rem==1){
-
            last = rem-1;
-
            s = JSON.stringify(Object.values(childData)[last]);
            s = s.substr(9);
            res1 = s.length-1;
            s = s.substr(0,res1);
+
            oldPage1 = new Quill('#prevEntries1', {
              modules: {
                  toolbar: false
@@ -201,14 +178,13 @@
            oldPage1.setContents(JSON.parse(s));
 
          }else if(rem==2){
-
            last = rem-1;
            secLast = rem-2;
-
            s = JSON.stringify(Object.values(childData)[last]);
            s = s.substr(9);
            res1 = s.length-1;
            s = s.substr(0,res1);
+
            oldPage1 = new Quill('#prevEntries1', {
              modules: {
                  toolbar: false
@@ -228,18 +204,18 @@
              },
              theme: 'snow',
            });
+
            oldPage2.setContents(JSON.parse(t));
 
          }else if(rem>2){
-
            last = rem-1;
            secLast = rem-2;
            triLast = rem-3;
-
            s = JSON.stringify(Object.values(childData)[last]);
            s = s.substr(9);
            res1 = s.length-1;
            s = s.substr(0,res1);
+
            oldPage1 = new Quill('#prevEntries1', {
              modules: {
                  toolbar: false
@@ -259,6 +235,7 @@
              },
              theme: 'snow',
            });
+
            oldPage2.setContents(JSON.parse(t));
 
            r = JSON.stringify(Object.values(childData)[triLast]);
@@ -271,6 +248,7 @@
              },
              theme: 'snow',
            });
+
            oldPage3.setContents(JSON.parse(r));
          }
      }

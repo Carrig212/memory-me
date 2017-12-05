@@ -17,9 +17,6 @@
   const btnLogout = document.getElementById('btnLogout');
 
 
-  //  var userId = firebase.auth().currentUser;
-  //  var uid = firebase.auth().currentUser.uid;
-
   //btnLogin click
   btnLogin.addEventListener('click', e => {
     const email = txtEmail.value;
@@ -57,8 +54,6 @@
       x=firebase.auth().currentUser.uid;
       x=JSON.stringify(x);
       window.localStorage.setItem("user",x);
-      //alert(x);
-      //document.getElementById('test').innerHTML=x;
     }else{
       console.log('not logged in');
       btnLogout.classList.add('hide');
@@ -68,16 +63,5 @@
       window.localStorage.setItem("user",x);
     }
   });
-
-
-
-  /**$('#btnSignUp').click(function(uid){
-    userRootRef.push({
-      date: Date(),
-      email: $('#textEmail').val(),
-      userId: uid
-
-    });
-  })**/
 
 }());
