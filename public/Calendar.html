@@ -12,7 +12,7 @@
   <link rel="shortcut icon" href="img/membrain.ico">
 </head>
 <body>
-  <div class=header>
+  <div class=header id="mblock">
     <nav>
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -87,28 +87,29 @@
   <div class="footer">
     <span><span id="footer-date" class="footer__link">Today is May 30</span></span>
   </div>
+  <button id="myBtn" class="myBtn">My Appointments</button>
+</div>
+
+
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2 id='togHead'></h2>
+    </div>
+    <div class="modal-body">
+      <p id="mp"></p>
+    </div>
+    <div class="modal-footer">
+      <h3>Have a nice day</h3>
+    </div>
+  </div>
+
+
 </div>
     <script src="scripts/Calendar.js"></script>
-    <!--<script>
-    const config = {
-      apiKey: "AIzaSyC1g8NJiXRtNZUeZoVEx6RYKg-KikYsqns",
-      authDomain: "memoryme-js.firebaseapp.com",
-      databaseURL: "https://memoryme-js.firebaseio.com",
-      projectId: "memoryme-js",
-      storageBucket: "memoryme-js.appspot.com",
-      messagingSenderId: "609070950026"
-    };
-    firebase.initializeApp(config);
-  </script>-->
-  <script>
-    var x = localStorage.getItem("user");
-    //x=JSON.stringify(x);
-
-    if(x!='"default"'){
-      $('a[href="Logger.html"]').html("Sign-out");
-    }else{
-      $('a[href="Logger.html"]').html("Join");
-    }
-    </script>
 </body>
 </html>

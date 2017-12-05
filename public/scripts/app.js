@@ -57,7 +57,7 @@
       x=firebase.auth().currentUser.uid;
       x=JSON.stringify(x);
       window.localStorage.setItem("user",x);
-      alert(x);
+      //alert(x);
       //document.getElementById('test').innerHTML=x;
     }else{
       console.log('not logged in');

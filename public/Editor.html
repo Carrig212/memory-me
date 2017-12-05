@@ -15,7 +15,7 @@
 
 </head>
 
-  <header class="headerhome">
+  <header class="headerhome" id="mblock">
     <nav>
         <ul>
           <li><a href = "index.html">Home</a></li>
@@ -25,6 +25,24 @@
         </ul>
     </nav>
   </header>
+
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2 id='togHead'></h2>
+      </div>
+      <div class="modal-body">
+        <p id="mp"></p>
+      </div>
+      <div class="modal-footer">
+        <h3>Have a nice day</h3>
+      </div>
+    </div>
+  </div>
+
   <body id = "edBody">
     <h2>Welcome to your diary</h2>
     <!-- Create the editor container -->
@@ -44,7 +62,7 @@
       <div id = "prevEntries2"></div>
       <div id = "prevEntries3"></div>
     </article>
-    <!-- Initialize Quill editor -->
+
   <script>
 
   var toolbarOptions = [
@@ -94,7 +112,7 @@
 
   var x = localStorage.getItem("user");
   //x=JSON.stringify(x);
-  alert(x);
+  //alert(x);
 
   var edrootRef = firebase.database().ref().child(x+'/diaryPage');
 
@@ -107,6 +125,23 @@
    //var delTest = {"ops":[{"insert":"This is not Stringified."}]}
    //quill.setContents(delTest);
 
+   var modal = document.getElementById('myModal');
+   //var head = document.getElementById('mblock');
+   var span = document.getElementsByClassName("close")[0];
+   var togHead = document.getElementById('togHead');
+
+   span.onclick = function() {
+       modal.style.display = "none";
+    // head.style.display = "block";
+   }
+
+   window.onclick = function(event) {
+       if (event.target == modal) {
+           modal.style.display = "none";
+           //head.style.display = "block";
+       }
+   }
+
   if(x!='"default"'){
     $('a[href="Logger.html"]').html("Sign-out");
   }else{
@@ -115,14 +150,22 @@
 
   $('#submitBtn').click(function(){
     if(x=='"default"'){
-      alert("You are currently not signed in, anything you enter will not be saved. Please visit the join page.");
+      togHead.innerHTML = "Please sign in";
+      document.getElementById('mp').innerHTML = "Join us to start saving your story";
+
+      modal.style.display = "block";
+      //head.style.display = "none";
+
     }else if(quill.getLength()!=1){
       edrootRef.push({
         diary: change
       });
       quill.setText('');
     }else if(quill.getLength()==1){
-      alert("Diary entry is empty, please write a new entry before saving.");
+      togHead.innerHTML = "Alert";
+      document.getElementById('mp').innerHTML = "Diary entry is empty, please write a new entry before saving.";
+      modal.style.display = "block";
+      //head.style.display = "none";
     }
   })
 

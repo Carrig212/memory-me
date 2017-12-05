@@ -1,56 +1,130 @@
+const config = {
+  apiKey: "AIzaSyC1g8NJiXRtNZUeZoVEx6RYKg-KikYsqns",
+  authDomain: "memoryme-js.firebaseapp.com",
+  databaseURL: "https://memoryme-js.firebaseio.com",
+  projectId: "memoryme-js",
+  storageBucket: "memoryme-js.appspot.com",
+  messagingSenderId: "609070950026"
+};
+firebase.initializeApp(config);
+
+  var x = localStorage.getItem("user");
+  //x=JSON.stringify(x);
+  //alert(x)
+
+  if(x!='"default"'){
+    $('a[href="Logger.html"]').html("Sign-out");
+  }else{
+    $('a[href="Logger.html"]').html("Join");
+  }
+
+  var calrootRef = firebase.database().ref().child(x+'/calEvent');
+
+  var modal = document.getElementById('myModal');
+  var head = document.getElementById('mblock');
+  var span = document.getElementsByClassName("close")[0];
+  var togHead = document.getElementById('togHead');
+  var btn = document.getElementById('myBtn');
+
+  btn.onclick = function() {
+      modal.style.display = "block";
+      head.style.display = "none";
+  }
+
+  span.onclick = function() {
+      modal.style.display = "none";
+      head.style.display = "block";
+  }
+
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+          head.style.display = "block";
+      }
+  }
+
 function CalendarApp(date) {
 
   if (!(date instanceof Date)) {
     date = new Date();
   }
 
-  const config = {
-    apiKey: "AIzaSyC1g8NJiXRtNZUeZoVEx6RYKg-KikYsqns",
-    authDomain: "memoryme-js.firebaseapp.com",
-    databaseURL: "https://memoryme-js.firebaseio.com",
-    projectId: "memoryme-js",
-    storageBucket: "memoryme-js.appspot.com",
-    messagingSenderId: "609070950026"
-  };
-  firebase.initializeApp(config);
-
-    var x = localStorage.getItem("user");
-    //x=JSON.stringify(x);
-    alert(x)
-
-    if(x!='"default"'){
-      $('a[href="Logger.html"]').html("Sign-out");
-    }else{
-      $('a[href="Logger.html"]').html("Join");
-    }
-
-    var calrootRef = firebase.database().ref().child(x+'/calEvent');
-    //this.calrootRef = this.database().ref().child('calEvent');
-
     $('#add-event-save').click(function(){
       if(x=='"default"'){
-        alert("You are currently not signed in, anything you enter will not be saved. Please visit the join page.")
+        togHead.innerHTML = "Please sign in";
+        document.getElementById('mp').innerHTML = "Join us to start scheduling appointments";
+        modal.style.display = "block";
+        head.style.display = "none";
+        span.onclick = function() {
+            modal.style.display = "none";
+            head.style.display = "block";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                head.style.display = "block";
+            }
+        }
       }else{
+
+         var dateObj = new Date($('#day-view-date').attr('data-date'));
+
         calrootRef.push({
-          date: Date(),
-          eName: $('#input-add-event-name').val(),
-          start: $('#input-add-event-start-time').val(),
-          sAmPm: $('#input-add-event-start-ampm').val(),
-          end: $('#input-add-event-end-time').val(),
-          eAmPm: $('#input-add-event-end-ampm').val()
+
+          name: $('#input-add-event-name').val(),
+          day : dateObj.toDateString(),
+          startTime: $('#input-add-event-start-time').val(),
+          sType: $('#input-add-event-start-ampm').val(),
+          endTime: $('#input-add-event-end-time').val(),
+          eType: $('#input-add-event-end-ampm').val(),
+          sort: Date.parse(dateObj)
 
         });
      }
-    })
+   })
 
     if(x=='"default"'){
-       alert("Please join us and log in to start your story and see your previous entries.");
+       console.log("Not User")
+       togHead.innerHTML = "Please sign in";
+       document.getElementById('mp').innerHTML = "Join us to start scheduling appointments";
+       modal.style.display = "block";
+       head.style.display = "none";
+       span.onclick = function() {
+           modal.style.display = "none";
+           head.style.display = "block";
+       }
+
+       window.onclick = function(event) {
+           if (event.target == modal) {
+               modal.style.display = "none";
+               head.style.display = "block";
+           }
+       }
     }else{
-      calrootRef.on("value", function(snapshot) {
-         var childData = (snapshot.val());
-         var len = Object.keys(childData).length;
-         alert(JSON.stringify(childData));
-         //JSON.stringify(Object.values(childData)[0]);
+      calrootRef.orderByChild("sort").once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot){
+         //var childData = (snapshot.val());
+         //var objLength = snapshot.numChildren();
+         //childTest = snapshot.child(Object.keys(childData)[0]).val();
+         //deepTest = snapshot.child(Object.keys(childData)[0]).child('name').val();
+         var key = childSnapshot.key;
+         var childData = childSnapshot.val();
+         var day_val = childSnapshot.val().day;
+         var name_val = childSnapshot.val().name;
+         var s_val = childSnapshot.val().startTime;
+         var e_val = childSnapshot.val().endTime;
+         var sap_val = childSnapshot.val().sType;
+         var eap_val = childSnapshot.val().eType;
+
+         togHead.innerHTML = "Your Appointments";
+         $("#mp").append("Name: " + name_val + "<br>"
+          +"Date: " + day_val + "<br>"
+          +"Starts: " + s_val + " " + sap_val + "<br>"
+          +"Ends: " + e_val + " " + eap_val  + "<br>"
+          +"<hr>");
+
+       });
       });
     }
 
@@ -86,22 +160,24 @@ function CalendarApp(date) {
   'The only person you are destined to become is the person you decide to be. –Ralph Waldo Emerson',
   'Go confidently in the direction of your dreams. Live the life you have imagined. –Henry David Thoreau',
   'Few things can help an individual more than to place responsibility on him, and to let him know that you trust him. –Booker T. Washington'];
-
+if(true){
   this.apts = [
-      /*  {
-          name: 'defualt',
-          endTime: new Date(2017, 11, 30, 23),
-          startTime: new Date(2017, 11, 30, 21),
-          day: new Date(2017, 11, 30).toString()
+       /*{
+         //this doesnt work
+          name: 'default',
+          endTime: new Date('Dec', 14, 2017, 22),
+          startTime: new Date('Dec', 14, 2017, 21),
+          day: new Date(2017, 11, 14).toString()
         },
          {
+          //This is what it likes
           name: 'random',
-          endTime: new Date(2016, 4, 1, 23, 59),
-          startTime: new Date(2016, 4, 1, 0),
-          day: new Date(2016, 4, 1).toString()
-        },*/
+          endTime: new Date(2017, 10, 30, 23, 59),
+          startTime: new Date(2016, 10, 30, 0),
+          day: new Date(2017, 10, 30).toString()
+        }*/
   ];
-
+}
   this.aptDates = [
 
 
