@@ -2,7 +2,7 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Cool To do app!</title>
+  <title>Memory/Me</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
@@ -35,8 +35,23 @@
 
     <button id="submitBtn">Save</button>
     <div id="dates"></div>
-  <script>
-  </script>
+
+    <div id="myModal" class="modal">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2 id='togHead'></h2>
+      </div>
+      <div class="modal-body">
+        <p id="mp"></p>
+      </div>
+      <div class="modal-footer">
+        <h3>Have a nice day</h3>
+      </div>
+    </div>
+  </div>
+
     <script src="scripts/app.js"></script>
     <script src="scripts/editor.js"></script>
   </body>

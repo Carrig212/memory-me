@@ -1,3 +1,22 @@
+    /*Modal*/
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+    var togHead = document.getElementById('togHead');
+    var mb = document.getElementById('mblock');
+
+    span.onclick = function() {
+        modal.style.display = "none";
+        mb.style.display = "block";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            mb.style.display = "block";
+        }
+    }
+
+
 function CalendarApp(date) {
     const auth = firebase.auth();
     const database = firebase.database();
@@ -120,7 +139,10 @@ function CalendarApp(date) {
                     });
                 });
         } else {
-            alert("Please, log in");
+            togHead.innerHTML = "Please sign in";
+            document.getElementById('mp').innerHTML = "Welcome to the calendar, please join us and log in to save appointments";
+            modal.style.display = "block";
+            mb.style.display = "none";
         }
     });
 }
@@ -428,7 +450,10 @@ CalendarApp.prototype.addEvent = function () {
         }
     }
     else {
-        alert('Please, log in');
+      togHead.innerHTML = "Please sign in";
+      document.getElementById('mp').innerHTML = "Welcome to the calendar, please join us and log in to save appointments";
+      modal.style.display = "block";
+      mb.style.display = "none";
     }
 };
 CalendarApp.prototype.convertTo23HourTime = function (stringOfTime, AMPM) {

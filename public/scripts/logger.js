@@ -10,6 +10,24 @@
     const btnPasswordReset = document.getElementById('btnPasswordReset');
     const divLogin = document.getElementById('login');
 
+    /*Modal*/
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+    var togHead = document.getElementById('togHead');
+    var mb = document.getElementById('mblock');
+
+    span.onclick = function() {
+        modal.style.display = "none";
+        mb.style.display = "block";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            mb.style.display = "block";
+        }
+    }
+
     //btnLogin click
     btnLogin.addEventListener('click', e => {
         const email = txtEmail.value;
@@ -23,6 +41,10 @@
                     if(!auth.currentUser.emailVerified){
                         console.log("Please, verify your email");
                         firebase.auth().signOut();
+                        togHead.innerHTML = "Attention";
+                        document.getElementById('mp').innerHTML = "A verification has been sent to the email address provided, please verify your email to log in. Remeber check to your junk if you have not recieved the email.";
+                        modal.style.display = "block";
+                        mb.style.display = "none";
                     }
                     console.log(auth.currentUser);
                 })

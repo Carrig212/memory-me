@@ -88,11 +88,27 @@
         placeholder: 'Make a new entry...'
     });
 
+   var modal = document.getElementById('myModal');
+   var span = document.getElementsByClassName("close")[0];
+   var togHead = document.getElementById('togHead');
+
+   span.onclick = function() {
+       modal.style.display = "none";
+   }
+
+   window.onclick = function(event) {
+       if (event.target == modal) {
+           modal.style.display = "none";
+       }
+   }
+
     const btnSave = document.getElementById('submitBtn');
     btnSave.addEventListener('click', e => {
         //if user isn't logged - access denied
         if(!auth.currentUser) {
-            alert("Please, log in")
+          togHead.innerHTML = "Please sign in";
+          document.getElementById('mp').innerHTML = "Join us to start saving your story";
+          modal.style.display = "block";
         }
         else if(!quill.getContents) {
             console.log();
