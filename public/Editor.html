@@ -2,7 +2,7 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Memory/Me</title>
+  <title>Cool To do app!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
@@ -15,246 +15,30 @@
 
 </head>
 
-  <header class="headerhome" id="mblock">
+  <header class="headerhome">
     <nav>
         <ul>
+
           <li><a href = "index.html">Home</a></li>
           <li><a href ="Calendar.html">Calendar</a></li>
-          <li class = "active"><a href="Editor.html">Diary</a></li>
-          <li><a href = "Logger.html">Join</a></li>
+          <li class="active"><a href="Editor.html">Diary</a></li>
+          <li><a id="logged" href="Logger.html">Join</a></li>
         </ul>
     </nav>
   </header>
-
-  <div id="myModal" class="modal">
-
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2 id='togHead'></h2>
-      </div>
-      <div class="modal-body">
-        <p id="mp"></p>
-      </div>
-      <div class="modal-footer">
-        <h3>Have a nice day</h3>
-      </div>
-    </div>
-  </div>
-
-  <body id = "edBody">
+  <body>
     <h2>Welcome to your diary</h2>
-    <div class = "editBlock" id = "editor">
+    <!-- Create the editor container -->
+    <div class = "editBlock" id="editor">
 
     </div>
 
-    <button id = "submitBtn">Save</button>
-
-    <article class = "bottomContent">
-      <h2>Your last few entries:</h2>
-      <footer>
-        <p class = "post-info" id = "notLog"></p>
-      </footer>
-      <div id = "prevEntries1"></div>
-      <div id = "prevEntries2"></div>
-      <div id = "prevEntries3"></div>
-    </article>
-
+    <button id="submitBtn">Save</button>
+    <div id="dates"></div>
   <script>
-
-  var toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    //[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    //[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-    [{ 'direction': 'rtl' }],                         // text direction
-
-    //[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    //[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-
-    ['clean']                                         // remove formatting button
-  ];
-
-    var quill = new Quill('#editor', {
-      modules: {
-          toolbar: toolbarOptions
-      },
-      theme: 'snow',
-      placeholder: 'Make a new entry...'
-    });
-
   </script>
-  <script>
-  const config = {
-    apiKey: "AIzaSyC1g8NJiXRtNZUeZoVEx6RYKg-KikYsqns",
-    authDomain: "memoryme-js.firebaseapp.com",
-    databaseURL: "https://memoryme-js.firebaseio.com",
-    projectId: "memoryme-js",
-    storageBucket: "memoryme-js.appspot.com",
-    messagingSenderId: "609070950026"
-  };
-  firebase.initializeApp(config);
-
-  var x = localStorage.getItem("user");
-
-  var edrootRef = firebase.database().ref().child(x+'/diaryPage');
-
-  var Delta =  Quill.import('delta');
-  var change = new Delta();
-  quill.on('text-change',function(delta){
-    change=change.compose(delta);
-  });
-
-   var modal = document.getElementById('myModal');
-   var span = document.getElementsByClassName("close")[0];
-   var togHead = document.getElementById('togHead');
-
-   span.onclick = function() {
-       modal.style.display = "none";
-   }
-
-   window.onclick = function(event) {
-       if (event.target == modal) {
-           modal.style.display = "none";
-       }
-   }
-
-  if(x!='"default"'){
-    $('a[href="Logger.html"]').html("Sign-out");
-  }else{
-    $('a[href="Logger.html"]').html("Join");
-  }
-
-  $('#submitBtn').click(function(){
-    if(x=='"default"'){
-      togHead.innerHTML = "Please sign in";
-      document.getElementById('mp').innerHTML = "Join us to start saving your story";
-      modal.style.display = "block";
-    }else if(quill.getLength()!=1){
-      edrootRef.push({
-        diary: change
-      });
-      quill.setText('');
-    }else if(quill.getLength()==1){
-      togHead.innerHTML = "Alert";
-      document.getElementById('mp').innerHTML = "Diary entry is empty, please write a new entry before saving.";
-      modal.style.display = "block";
-    }
-  })
-
-  var s,t,r,res1,res2,res3,rem,childData,oldPage1,oldPage2,oldPage3,last,secLast,triLast;
-
-  if(x=='"default"'){
-    document.getElementById('notLog').innerHTML="Please join us and log in to start your story and see your previous entries.";
-  }else{
-    edrootRef.on("value", function(snapshot) {
-       childData = (snapshot.val());
-       if(childData==null){
-         document.getElementById('notLog').innerHTML="Start your story and see your previous entries.";
-       }
-       else if(childData!=null){
-         rem = Object.keys(childData).length;
-         if(rem==1){
-           last = rem-1;
-           s = JSON.stringify(Object.values(childData)[last]);
-           s = s.substr(9);
-           res1 = s.length-1;
-           s = s.substr(0,res1);
-
-           oldPage1 = new Quill('#prevEntries1', {
-             modules: {
-                 toolbar: false
-             },
-             theme: 'snow',
-           });
-
-           oldPage1.setContents(JSON.parse(s));
-
-         }else if(rem==2){
-           last = rem-1;
-           secLast = rem-2;
-           s = JSON.stringify(Object.values(childData)[last]);
-           s = s.substr(9);
-           res1 = s.length-1;
-           s = s.substr(0,res1);
-
-           oldPage1 = new Quill('#prevEntries1', {
-             modules: {
-                 toolbar: false
-             },
-             theme: 'snow',
-           });
-
-           oldPage1.setContents(JSON.parse(s));
-
-           t = JSON.stringify(Object.values(childData)[secLast]);
-           t = t.substr(9);
-           res2 = t.length-1;
-           t = t.substr(0,res2);
-           oldPage2 = new Quill('#prevEntries2', {
-             modules: {
-                 toolbar: false
-             },
-             theme: 'snow',
-           });
-
-           oldPage2.setContents(JSON.parse(t));
-
-         }else if(rem>2){
-           last = rem-1;
-           secLast = rem-2;
-           triLast = rem-3;
-           s = JSON.stringify(Object.values(childData)[last]);
-           s = s.substr(9);
-           res1 = s.length-1;
-           s = s.substr(0,res1);
-
-           oldPage1 = new Quill('#prevEntries1', {
-             modules: {
-                 toolbar: false
-             },
-             theme: 'snow',
-           });
-
-           oldPage1.setContents(JSON.parse(s));
-
-           t = JSON.stringify(Object.values(childData)[secLast]);
-           t = t.substr(9);
-           res2 = t.length-1;
-           t = t.substr(0,res2);
-           oldPage2 = new Quill('#prevEntries2', {
-             modules: {
-                 toolbar: false
-             },
-             theme: 'snow',
-           });
-
-           oldPage2.setContents(JSON.parse(t));
-
-           r = JSON.stringify(Object.values(childData)[triLast]);
-           r = r.substr(9);
-           res3 = r.length-1;
-           r = r.substr(0,res3);
-           oldPage3 = new Quill('#prevEntries3', {
-             modules: {
-                 toolbar: false
-             },
-             theme: 'snow',
-           });
-
-           oldPage3.setContents(JSON.parse(r));
-         }
-     }
-    });
-  }
-
-  </script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/editor.js"></script>
   </body>
+
 </html>

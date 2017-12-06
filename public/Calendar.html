@@ -6,19 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
   <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+  <script src = "https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="img/membrain.ico">
 </head>
 <body>
-  <div class=header id="mblock">
+  <div class=header>
     <nav>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li class ="active"><a href="Calendar.html">Calendar</a></li>
           <li><a href="Editor.html">Diary</a></li>
-          <li><a href="Logger.html">Join</a></li>
+          <li><a id="logged" href="Logger.html">Join</a></li>
         </ul>
     </nav>
   </div>
@@ -87,25 +88,8 @@
   <div class="footer">
     <span><span id="footer-date" class="footer__link">Today is May 30</span></span>
   </div>
-  <button id="myBtn" class="myBtn">My Appointments</button>
 </div>
-
-<div id="myModal" class="modal">
-
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="close">&times;</span>
-      <h2 id='togHead'></h2>
-    </div>
-    <div class="modal-body">
-      <p id="mp"></p>
-    </div>
-    <div class="modal-footer">
-      <h3>Have a nice day</h3>
-    </div>
-  </div>
-
-</div>
+    <script src="scripts/app.js"></script>
     <script src="scripts/Calendar.js"></script>
 </body>
 </html>
