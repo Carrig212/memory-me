@@ -51,7 +51,7 @@
                 .catch(e => console.log(e.message));
     });
 
-    //btnSignup click
+    //btnSignup click.
     btnSignUp.addEventListener('click', e => {
         const email = txtEmail.value;
         const pass = txtPassword.value;
