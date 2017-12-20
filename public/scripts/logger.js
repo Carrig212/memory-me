@@ -61,7 +61,6 @@
             .then(() => {
                 //after creating user we need to save it in the database
                 const promiseSave = database.ref("users/" + auth.currentUser.uid).set({
-                    //you can add other user fields if they will appear(except password, it's inappropriate)
                     email: email,
                 })
                     .catch(e => console.log(e.message));
@@ -112,4 +111,5 @@
         }
     });
 
-}());
+}()); 
+ 

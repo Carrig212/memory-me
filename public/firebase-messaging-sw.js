@@ -1,5 +1,4 @@
-// DON'T RENAME THIS FILE
-// DON'T MOVE THIS FILE
+
 importScripts("https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js");
 
@@ -18,7 +17,8 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
-    //there you can set up how notification will appear
+    //I didn't finsh this in time for the submission, I thought i could send push notifications
+    //easier with Firebase but i didnt have time to look into it more
     const title = 'Background Message Title';
     const options = {
         body: payload.data.body,

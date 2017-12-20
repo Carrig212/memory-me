@@ -30,6 +30,7 @@ function CalendarApp(date) {
         });
     messaging.onMessage((payload)=>{
         //do something when notification comes
+        //
     });
     if (!(date instanceof Date)) {
         date = new Date();

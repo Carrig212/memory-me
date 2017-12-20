@@ -2,7 +2,7 @@
     const auth = firebase.auth();
     const database = firebase.database();
 
-    //we create temporary quill container that parse Delta object(is a main Quill structure) to HTML
+    //start of with my quill function
     function quillGetHTML(inputDelta) {
         let tempCont = document.createElement("div");
         (new Quill(tempCont)).setContents(inputDelta);
